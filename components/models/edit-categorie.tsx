@@ -87,18 +87,23 @@ const EditCategoryModal = () => {
       data.description = description;
     }
 
-    const promise = updateCategory({ id, ...data })
-      .then(() => {
-        getCategories();
-        form.reset();
-      })
-      .finally(() => onClose());
+    if (data) {
+      const promise = updateCategory({ id: category?.id, ...data })
+        .then(() => {
+          getCategories();
+          form.reset();
+        })
+        .finally(() => onClose());
 
-    toast.promise(promise, {
-      loading: "Adding a Categorie...",
-      success: "Successfully updated the categorie",
-      error: "Something went wrong in creating a categorie",
-    });
+      toast.promise(promise, {
+        loading: "Adding a Categorie...",
+        success: "Successfully updated the categorie",
+        error: "Something went wrong in creating a categorie",
+      });
+    } else {
+      toast.warning("No Update in data");
+      onClose();
+    }
   };
 
   useEffect(() => {

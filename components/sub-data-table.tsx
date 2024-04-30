@@ -117,6 +117,15 @@ export function SubDataTable({
       ),
     },
     {
+      accessorKey: "Categorie",
+      header: "Category",
+      cell: ({ row }) => (
+        <div className=" capitalize">
+          {(row.getValue("Categorie") as Categorie).name}
+        </div>
+      ),
+    },
+    {
       accessorKey: "Products",
       header: "Products",
       cell: ({ row }) => (
@@ -233,7 +242,7 @@ export function SubDataTable({
             </DropdownMenuContent>
           </DropdownMenu>
           <Button
-            onClick={() => onOpen(categorie?.id)}
+            onClick={() => onOpen(getSubCategories, categorie?.id)}
             className="space-x-4"
             variant="outline"
           >

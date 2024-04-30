@@ -39,7 +39,8 @@ const formSchema = z.object({
 });
 
 const CreateSubCategorieModel = () => {
-  const { isOpen, onClose, id } = useCreateSubCategorieModal();
+  const { isOpen, onClose, id, getSubCategories } =
+    useCreateSubCategorieModal();
 
   const [categories, setCategories] = useState<Categorie[]>([]);
   const [loading, setLoading] = useState(false);
@@ -57,7 +58,10 @@ const CreateSubCategorieModel = () => {
     const { id, name, description } = values;
 
     const promise = createSubCategorie(id, name, description)
-      .then(() => form.reset())
+      .then(() => {
+        form.reset();
+        getSubCategories();
+      })
       .finally(() => onClose());
 
     toast.promise(promise, {
@@ -92,7 +96,7 @@ const CreateSubCategorieModel = () => {
     <Dialog open={isOpen} onOpenChange={() => onClose()}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create a new Categorie</DialogTitle>
+          <DialogTitle>Create a new Sub Category</DialogTitle>
           <DialogDescription>
             This action cannot be undone. This will permanently delete your
             account and remove your data from our servers.
@@ -119,7 +123,7 @@ const CreateSubCategorieModel = () => {
                 </FormItem>
               )}
             />
-            {!form.getValues("id") && (
+            {!id && (
               <div className="flex flex-col gap-1">
                 <FormLabel className=" text-md whitespace-normal">
                   Categorie name
@@ -137,6 +141,7 @@ const CreateSubCategorieModel = () => {
                       });
                     }}
                   />
+                  <p className="pt-2 text-sm">Select this even once</p>
                 </div>
               </div>
             )}

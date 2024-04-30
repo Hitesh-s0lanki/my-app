@@ -20,12 +20,16 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { createSubCategorie, getAllCategorie } from "@/lib/categorie.actions";
+import {
+  createSubCategorie,
+  getAllCategorie,
+  getAllSubCategory,
+} from "@/lib/categorie.actions";
 import { toast } from "sonner";
 import { useCreateSubCategorieModal } from "@/hooks/use-create-sub-categorie";
 import { useCallback, useEffect, useState } from "react";
 import NpmSelect from "../NpmSelect";
-import { Categorie } from "@prisma/client";
+import { Categorie, SubCategorie } from "@prisma/client";
 import { useCreateProductModal } from "@/hooks/use-create-product";
 import { createProduct } from "@/lib/product.actions";
 
@@ -42,7 +46,7 @@ const formSchema = z.object({
 const CreateProductModal = () => {
   const { isOpen, onClose, id, getAllProducts } = useCreateProductModal();
 
-  const [categories, setCategories] = useState<Categorie[]>([]);
+  const [categories, setCategories] = useState<SubCategorie[]>([]);
   const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -73,7 +77,7 @@ const CreateProductModal = () => {
 
   const getSubCategorieName = useCallback(() => {
     setLoading(true);
-    const promise = getAllCategorie()
+    const promise = getAllSubCategory()
       .then((response) => setCategories(response))
       .finally(() => setLoading(false));
 
@@ -123,10 +127,10 @@ const CreateProductModal = () => {
                 </FormItem>
               )}
             />
-            {!form.getValues("id") && (
+            {!id && (
               <div className="flex flex-col gap-1">
                 <FormLabel className=" text-md whitespace-normal">
-                  Categorie name
+                  SubCategory name
                 </FormLabel>
                 <div className="mx-2">
                   <NpmSelect
@@ -142,6 +146,7 @@ const CreateProductModal = () => {
                     }}
                   />
                 </div>
+                <p className="text-sm pt-2">Select once</p>
               </div>
             )}
 

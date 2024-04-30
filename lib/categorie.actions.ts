@@ -2,7 +2,7 @@
 
 import { FullSubCategorie } from "@/types";
 import { db } from "./db";
-import { Product } from "@prisma/client";
+import { Product, SubCategorie } from '@prisma/client';
 
 export const createCategorie = async (name: string, description: string) => {
     try {
@@ -92,6 +92,34 @@ export const getAllSubCategoriesById = async (id: string) => {
     }
 }
 
+export const getAllSubCategory = async () => {
+    try {
+        const subCategorie = await db.subCategorie.findMany({
+            include: {
+                Categorie: true,
+                Products: true
+            }
+        })
+
+        const new_subCategory: FullSubCategorie[] = subCategorie.map((subcategorie) => {
+            return {
+                ...subcategorie,
+                Products: subcategorie.Products.map((product: Product) => ({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price.toNumber()
+                }))
+            }
+        })
+
+        return new_subCategory
+
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
 
 export const createSubCategorie = async (categorie_id: string, name: string, description: string) => {
     try {
@@ -141,11 +169,21 @@ export const deleteSubCategorie = async (id: string) => {
 }
 
 
-export const updateCategory = async (id: string, name?: string, description?: string) => {
+export const updateCategory = async ({ id, name, description }: { id: string, name?: string, description?: string }) => {
     try {
-        await db.categorie.update({
+
+
+        const Category = await db.categorie.findUnique({
             where: {
                 id
+            }
+        })
+
+        if (!Category) throw new Error("Categroy not found")
+
+        await db.categorie.update({
+            where: {
+                id: Category.id
             },
             data: {
                 name,

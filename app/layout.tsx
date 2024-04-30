@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import ModalProviders from "@/components/providers/model-providers";
 import { Toaster } from "@/components/ui/sonner";
+import Sidebar from "@/components/sidebar";
+import Navbar from "@/components/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +23,11 @@ export default function RootLayout({
       <body className={inter.className}>
         <Toaster />
         <ModalProviders />
-        {children}
+        <main className="flex h-full w-full">
+          <Sidebar />
+          <Navbar />
+          <div className="flex-1 h-full w-full">{children}</div>
+        </main>
       </body>
     </html>
   );

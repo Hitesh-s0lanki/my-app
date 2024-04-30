@@ -115,3 +115,24 @@ export const getProductById = async (id: string) => {
         throw error
     }
 }
+
+export const getAllProductsServer = async () => {
+    try {
+        const products = await db.product.findMany({
+            include: {
+                Subcategory: true
+            }
+        })
+
+        const new_products: FullProduct[] = products.map((product) => ({
+            ...product,
+            price: product.price.toNumber()
+        }))
+
+        return new_products
+
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}

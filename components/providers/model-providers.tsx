@@ -4,6 +4,7 @@ import CreateSubCategorieModel from "../models/create-sub-categories";
 import EditProductModal from "../models/edit-product-model";
 import EditCategoryModal from "../models/edit-categorie";
 import CreateCategorieModel from "../models/create-categorie";
+import MobileSidebar from "../mobile-sidebar";
 
 const ModalProviders = () => {
   return (
@@ -13,6 +14,7 @@ const ModalProviders = () => {
       <CreateCategorieModel />
       <CreateSubCategorieModel />
       <CreateProductModal />
+      <MobileSidebar />
     </>
   );
 };

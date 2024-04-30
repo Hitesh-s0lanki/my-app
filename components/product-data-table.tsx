@@ -113,6 +113,17 @@ export function ProductDataTable({
       ),
     },
     {
+      accessorKey: "Subcategory",
+      header: "Subcategory",
+      cell: ({ row }) => {
+        return (
+          <div className=" capitalize">
+            {(row.getValue("Subcategory") as SubCategorie).name}
+          </div>
+        );
+      },
+    },
+    {
       accessorKey: "price",
       header: () => <div className="text-right">Amount</div>,
       cell: ({ row }) => {
