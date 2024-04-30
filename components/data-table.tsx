@@ -56,7 +56,7 @@ export function DataTable({
   data: FullCategorie[];
   getCategories: () => void;
 }) {
-  const { onOpen } = useCreateCategorieModal();
+  const { onOpen: handleCreateOnOpen } = useCreateCategorieModal();
   const { onOpen: EditOnOpen } = useEditCategoryModal();
   const router = useRouter();
 
@@ -235,7 +235,9 @@ export function DataTable({
             </DropdownMenuContent>
           </DropdownMenu>
           <Button
-            onClick={() => onOpen()}
+            onClick={() => {
+              handleCreateOnOpen();
+            }}
             className="space-x-4"
             variant="outline"
           >
