@@ -1,13 +1,15 @@
 import { create } from "zustand";
 
 interface ModalStore {
+    getCategories: () => void;
     isOpen: boolean;
-    onOpen: () => void,
+    onOpen: (getCategories: () => void) => void,
     onClose: () => void;
 }
 
 export const useCreateCategorieModal = create<ModalStore>((set) => ({
+    getCategories: () => { },
     isOpen: false,
-    onOpen: () => set({ isOpen: true, }),
+    onOpen: (getCategories) => set({ isOpen: true, getCategories }),
     onClose: () => set({ isOpen: false }),
 }));

@@ -33,7 +33,7 @@ const formSchema = z.object({
 });
 
 const CreateCategorieModel = () => {
-  const { isOpen, onClose } = useCreateCategorieModal();
+  const { isOpen, onClose, getCategories } = useCreateCategorieModal();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,7 +47,10 @@ const CreateCategorieModel = () => {
     const { name, description } = values;
 
     const promise = createCategorie(name, description)
-      .then(() => form.reset())
+      .then(() => {
+        form.reset();
+        getCategories();
+      })
       .finally(() => onClose());
 
     toast.promise(promise, {

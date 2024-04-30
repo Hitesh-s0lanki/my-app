@@ -236,7 +236,7 @@ export function DataTable({
           </DropdownMenu>
           <Button
             onClick={() => {
-              handleCreateOnOpen();
+              handleCreateOnOpen(getCategories);
             }}
             className="space-x-4"
             variant="outline"
